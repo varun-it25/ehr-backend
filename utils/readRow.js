@@ -10,40 +10,40 @@ export async function readAll(tableName) {
             throw error;
         }
 
-        console.log(patients);
+        return patients;
     } catch (err) {
         console.error('Error fetching patients:', err.message);
     }
 }
 
-export async function readOne(tableName, columnName) {
+export async function readOne(tableName, id) {
     try {
-        const { data: patients, error } = await supabase
+        const { data, error } = await supabase
             .from(tableName)
-            .select(columnName);
+            .select()
+            .eq('id', id)
+            .single();
 
-        if (error) {
-            throw error;
-        }
-
-        console.log(patients);
+        if (error) throw error;
+        return data;
     } catch (err) {
-        console.error('Error fetching patients:', err.message);
+        console.error('Error fetching patient:', err.message);
+        throw err;
     }
 }
 
-export async function readMany(tableName, columnNames) {
+export async function readMany(tableName, ids) {
     try {
-        const { data: patients, error } = await supabase
+        const { data, error } = await supabase
             .from(tableName)
-            .select(columnNames.join(','));
+            .select()
+            .in('id', ids);
 
-        if (error) {
-            throw error;
-        }
+        if (error) throw error;
 
-        console.log(patients);
+        return data;
     } catch (err) {
         console.error('Error fetching patients:', err.message);
+        throw err;
     }
 }

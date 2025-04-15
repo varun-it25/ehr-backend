@@ -1,25 +1,13 @@
 import express from "express";
+import { addPatient, getAllPatients, getPatientById, updatePatient } from "../controllers/patient.controller.js";
 
 const router = express.Router();
 
-router.post("/create", (req, res) => {
-    res.send("Patient created.")
-})
+router.post("/add", addPatient);
 
-router.get("/all", (req, res) => {
-    res.send("All patients list.")
-})
+router.get("/all", getAllPatients);
+router.get("/:id", getPatientById);
 
-router.get("/:id", (req, res) => {
-    res.send("Patient details.")
-})
-
-router.put("/:id", (req, res) => {
-    res.send("Patient updated.")
-})
-
-router.delete("/:id", (req, res) => {
-    res.send("Patient deleted.")
-})
+router.put("/:id", updatePatient);
 
 export default router;
